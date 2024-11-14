@@ -25,11 +25,15 @@ export default class Branch
 
         let x = this.x + this.size * Math.cos(this.angle);
         let y = this.y + this.size * Math.sin(this.angle);
-        let size = this.size * RndTree.R;
-        let level = this.level - 1;
+        let size = this.size * RndTree.REDUCTION;
+        
+        const nextLevel = (level: number) => {
+            let rnd = Math.random();
+            return rnd < 0.2 ? 0 : level - 1;
+        }
 
         const growTree = (alpha: number) => {
-            let branch = new Branch(size, this.angle + alpha, x, y, level);
+            let branch = new Branch(size, this.angle + alpha, x, y, nextLevel(this.level));
             branch.grow();
             return branch;
         }
@@ -40,16 +44,16 @@ export default class Branch
                 this.sons[0] = growTree(0);  
                 break;
             case 1: // '\|'  
-                this.sons[0] = growTree(RndTree.V); 
+                this.sons[0] = growTree(RndTree.V_ANGLE); 
                 this.sons[1] = growTree(0);
                 break;
             case 2: // '|/'
                 this.sons[0] = growTree(0); 
-                this.sons[1] = growTree(-RndTree.V);
+                this.sons[1] = growTree(-RndTree.V_ANGLE);
                 break;
             case 3: //'\/'
-                this.sons[0] = growTree(-RndTree.V); 
-                this.sons[1] = growTree(RndTree.V);
+                this.sons[0] = growTree(-RndTree.V_ANGLE); 
+                this.sons[1] = growTree(RndTree.V_ANGLE);
                 break;
         }
     }
