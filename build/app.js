@@ -1,2 +1,3 @@
-import { Branch } from "./RndTree.js";
-console.log(new Branch(1, 1, 1, 1, 2));
+import { RndTree } from "./RndTree.js";
+let tree = new RndTree(1, 40, 0, 0);
+tree.root.print("");

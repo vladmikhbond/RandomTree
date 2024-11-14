@@ -22,6 +22,14 @@ export class Branch {
         b2.grow();
         this.sons = [b1, b2];
     }
+    print(shift) {
+        console.log(shift, this.level, this.angle);
+        if (this.level == 0)
+            return;
+        this.sons[0].print(shift + "    ");
+        console.log();
+        this.sons[1].print(shift + "    ");
+    }
 }
 export class RndTree {
     constructor(maxDepth, rootSize, x, y) {
