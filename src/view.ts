@@ -1,4 +1,5 @@
-import { Branch, RndTree } from "./RndTree";
+import RndTree from "./RndTree.js";
+import Branch from "./Brabch.js";
 
 export default class View
 {
