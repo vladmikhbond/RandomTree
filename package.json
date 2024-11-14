@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start:build": "tsc -w",
-    "start:run": "nodemon build/app.js",
+    "start:run": "live-server",
     "start": "concurrently npm:start:*"
   },
   "keywords": [],

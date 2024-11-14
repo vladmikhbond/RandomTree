@@ -1,3 +1,6 @@
 import { RndTree } from "./RndTree.js";
-let tree = new RndTree(1, 40, 0, 0);
-tree.root.print("");
+import View from "./view.js";
+let tree = new RndTree(6, 50, 200, 0);
+tree.root.print("   ");
+let view = new View(tree);
+view.draw();
