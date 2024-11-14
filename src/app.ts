@@ -5,7 +5,7 @@ import View from "./view.js";
 let tree = new RndTree(
     10, 50, 
     200, 0, 
-    0.9, Math.PI/6, [1,1,1,1]
+    0.9, Math.PI/6, [1,2,2,4]
 );
 
 //tree.root.print("   ");

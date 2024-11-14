@@ -6,13 +6,14 @@ export default class RndTree {
         for (let i = 0; i < RndTree.P.length; i++) {
             prob += RndTree.P[i];
             if (rnd <= prob)
-                return ['|', '|/', '\|', '\/'][i];
+                return i;
         }
     }
     constructor(maxDepth, rootSize, x, y, R, V, P) {
         RndTree.R = R;
         RndTree.V = V;
-        RndTree.P = P;
+        let sum = P.reduce((a, x) => a + x);
+        RndTree.P = P.map(p => p / sum);
         this.root = new Branch(rootSize, Math.PI / 2, x, y, maxDepth);
         this.root.grow();
     }

@@ -36,18 +36,18 @@ export default class Branch
         
         switch(RndTree.variant()) 
         {
-            case '|': 
+            case 0 : // '|' 
                 this.sons[0] = growTree(0);  
                 break;
-            case '\|':  
+            case 1: // '\|'  
                 this.sons[0] = growTree(-RndTree.V); 
                 this.sons[1] = growTree(0);
                 break;
-            case '|/':
+            case 2: // '|/'
                 this.sons[0] = growTree(0); 
                 this.sons[1] = growTree(RndTree.V);
                 break;
-            case '\/':
+            case 3: //'\/'
                 this.sons[0] = growTree(-RndTree.V); 
                 this.sons[1] = growTree(RndTree.V);
                 break;
