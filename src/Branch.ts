@@ -29,7 +29,9 @@ export default class Branch
         
         const nextLevel = (level: number) => {
             let rnd = Math.random();
-            return rnd < 0.2 ? 0 : level - 1;
+            let next = rnd < 0.5 ? level - 2 : level - 1;
+            if (next < 0) next = 0;
+            return next;
         }
 
         const growTree = (alpha: number) => {

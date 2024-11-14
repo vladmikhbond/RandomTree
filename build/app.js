@@ -1,12 +1,10 @@
 import RndTree from "./RndTree.js";
 import View from "./view.js";
-let tree = new RndTree(10, 50, 200, 0, 0.90, Math.PI / 7, [1, 1, 1, 1]);
-tree.grow();
-let view = new View(tree);
-//tree.root.print("   ");
-view.draw();
-const canvas = document.getElementById("canvas");
+let rTree = new RndTree(10, 50, 200, 0, 0.90, Math.PI / 7, [1, 1, 1, 1]);
+let view = new View(rTree);
+let canvas = document.getElementById("canvas");
 canvas.addEventListener('click', () => {
-    tree.grow();
+    rTree.grow();
     view.draw();
 });
+canvas.dispatchEvent(new Event('click'));

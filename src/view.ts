@@ -25,6 +25,7 @@ export default class View
     drawRec(b: Branch) {
         let dx = b.size * Math.cos(b.angle);
         let dy = b.size * Math.sin(b.angle);
+        View.ctx.lineWidth = 0.05 * b.level ** 2;
         View.ctx.beginPath();
         View.ctx.moveTo(b.x, b.y);
         View.ctx.lineTo(b.x + dx, b.y + dy);
@@ -34,3 +35,8 @@ export default class View
         if (b.sons[1]) this.drawRec(b.sons[1]);        
     }
 }
+
+
+//     ctx.lineWidth = 0.05 * depth ** 2;
+//     let col = ['black', 'red', 'green', 'blue'][(D - depth) % 4];
+//     ctx.strokeStyle = col;
