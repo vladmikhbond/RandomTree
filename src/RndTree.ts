@@ -1,4 +1,4 @@
-import Branch from "./Brabch.js";
+import Branch from "./Branch.js";
 
 export default class RndTree 
 {

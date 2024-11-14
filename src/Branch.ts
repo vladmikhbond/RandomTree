@@ -40,12 +40,12 @@ export default class Branch
                 this.sons[0] = growTree(0);  
                 break;
             case 1: // '\|'  
-                this.sons[0] = growTree(-RndTree.V); 
+                this.sons[0] = growTree(RndTree.V); 
                 this.sons[1] = growTree(0);
                 break;
             case 2: // '|/'
                 this.sons[0] = growTree(0); 
-                this.sons[1] = growTree(RndTree.V);
+                this.sons[1] = growTree(-RndTree.V);
                 break;
             case 3: //'\/'
                 this.sons[0] = growTree(-RndTree.V); 
