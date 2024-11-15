@@ -23,10 +23,12 @@ export default class RndTree
         }
     }
 
-    // базова гілка дерева
-    base: Branch;
-    // висота дерева (в гілках)
-    maxDepth: number;
+
+    baseSize: number;
+    x: number;
+    y: number;
+    maxDepth: number    // висота дерева (в гілках)
+    base: Branch | null = null;
 
     constructor(
         maxDepth: number, 
@@ -44,13 +46,15 @@ export default class RndTree
         let sum = PROBS.reduce((a, x) => a + x);
         RndTree.PROBS = PROBS.map(p => p / sum);
        
-        this.base = new Branch(baseSize, Math.PI / 2, x, y, maxDepth);
+        this.baseSize = baseSize;
         this.maxDepth = maxDepth;
+        this.x = x; this.y = y; 
         this.grow();
     }
     
     grow() {
-       this.base.rGrow();
+        this.base = new Branch(this.baseSize, Math.PI / 2, this.x, this.y, this.maxDepth);
+        this.base.rGrow();
     }
 
 }
