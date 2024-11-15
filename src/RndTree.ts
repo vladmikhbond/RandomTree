@@ -1,11 +1,18 @@
 import Branch from "./Branch.js";
 
+// Випадкове дерево
+//
 export default class RndTree 
 {
+    // коеф.скорочення гілок наступного рівня
     static REDUCTION: number;
+    // кут розвилки |/
     static V_ANGLE: number;
-    static PROBS: number[];
+    // відносна вірогідність появи сегментів:  0: |, 1: \|,  2: |/, 3: \/  
+    static PROBS: number[];  
     
+    // Випадково обирає номер сегменту
+    //
     static variant() {
         let rnd = Math.random();
         let prob = 0;
@@ -16,31 +23,34 @@ export default class RndTree
         }
     }
 
-
-    root: Branch;
+    // базова гілка дерева
+    base: Branch;
+    // висота дерева (в гілках)
     maxDepth: number;
 
     constructor(
         maxDepth: number, 
-        rootSize: number, 
+        baseSize: number, 
         x: number, 
         y: number,
-        R: number,
-        V: number,
-        P: number[]) 
+        REDUCTION = 0.9,
+        V_ANGLE = Math.PI/7,
+        PROBS = [1,1,1,1]) 
     {
-        RndTree.REDUCTION = R;
-        RndTree.V_ANGLE = V;
-        let sum = P.reduce((a, x) => a + x);
-        RndTree.PROBS = P.map(p => p / sum);
+        RndTree.REDUCTION = REDUCTION;
+        RndTree.V_ANGLE = V_ANGLE;
+
+        // нормалізуємо вірогідності
+        let sum = PROBS.reduce((a, x) => a + x);
+        RndTree.PROBS = PROBS.map(p => p / sum);
        
-        this.root = new Branch(rootSize, Math.PI / 2, x, y, maxDepth);
+        this.base = new Branch(baseSize, Math.PI / 2, x, y, maxDepth);
         this.maxDepth = maxDepth;
         this.grow();
     }
     
     grow() {
-       this.root.grow();
+       this.base.rGrow();
     }
 
 }

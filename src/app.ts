@@ -17,7 +17,7 @@ canvas.addEventListener('click', () => {
     rTree.grow();
     for (let age = 1; age < rTree.maxDepth; age++) {
         let timeSpan = 500 * age ;
-        setTimeout( () => view.draw(age), timeSpan );
+        setTimeout( () => view.drawTree(age), timeSpan );
     }
 });
 

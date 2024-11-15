@@ -1,4 +1,6 @@
 import RndTree from "./RndTree.js";
+// Гілка випадкового дерева
+//
 export default class Branch {
     constructor(size, angle, x, y, level) {
         this.sons = [];
@@ -42,7 +44,7 @@ export default class Branch {
                 this.sons[0] = growTree(0);
                 this.sons[1] = growTree(-RndTree.V_ANGLE);
                 break;
-            case 3: //'\/'
+            case 3: // '\/'
                 this.sons[0] = growTree(-RndTree.V_ANGLE);
                 this.sons[1] = growTree(RndTree.V_ANGLE);
                 break;

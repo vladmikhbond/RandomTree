@@ -7,7 +7,7 @@ class View {
     }
     draw(age = 0) {
         View.ctx.clearRect(0, 0, View.canvas.width, View.canvas.height);
-        this.rdraw(this.rndTree.root, this.rndTree.maxDepth - age - 1);
+        this.rdraw(this.rndTree.base, this.rndTree.maxDepth - age - 1);
     }
     rdraw(b, levLimit) {
         if (b.level <= levLimit)

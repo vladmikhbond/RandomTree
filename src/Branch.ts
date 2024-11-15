@@ -1,5 +1,7 @@
 import RndTree from "./RndTree.js";
 
+// Гілка випадкового дерева
+//
 export default class Branch 
 {    
     x: number;
@@ -7,7 +9,8 @@ export default class Branch
     size: number;
     angle: number;
     sons: Branch[] = [];
-    
+  
+    // звороний рівень гілки (на горі він найменший = 0)
     level: number;
 
     constructor(size: number, angle: number, x: number, y: number, level: number) {
@@ -18,63 +21,64 @@ export default class Branch
         this.level = level;
     }
 
-    get xEnd() {
-        return this.x + this.size * Math.cos(this.angle);
-    }
+    // Протилежний кінець гілки
+    //
+    get xEnd() { return this.x + this.size * Math.cos(this.angle); }    
+    get yEnd() { return this.y + this.size * Math.sin(this.angle); }
 
-    get yEnd() {
-        return this.y + this.size * Math.sin(this.angle);
-    }
-
-
-    grow() {
+    // Рекурсивно вирощує дерево з гілки this 
+    //
+    rGrow() {
         if (this.level == 0)
             return;
-
-        let size = this.size * RndTree.REDUCTION;
         
-        const nextLevel = (level: number) => {
-            let rnd = Math.random();
-            let next = rnd < 0.5 ? level - 2 : level - 1;
-            if (next < 0) next = 0;
-            return next;
+        // Внутрішня функція - визначає рівень наступного покоління гілок
+        function nextLevel(level: number) {
+            let next = Math.random() < 0.5 ? level - 2 : level - 1;
+            return next < 0 ? 0 : next;
         }
 
-        const growTree = (alpha: number) => {
-            let branch = new Branch(size, this.angle + alpha, this.xEnd, this.yEnd, nextLevel(this.level));
-            branch.grow();
+        // Внутрішня функція - створює гілку, яка продовжує гілку this і має заданий кут нахилу
+        const rSubTree = (alpha: number) => {
+            let branch = new Branch(
+                this.size * RndTree.REDUCTION, 
+                this.angle + alpha, 
+                this.xEnd, this.yEnd, 
+                nextLevel(this.level));
+            branch.rGrow();
             return branch;
         }
         
         switch(RndTree.variant()) 
         {
             case 0 : // '|' 
-                this.sons[0] = growTree(0);  
+                this.sons[0] = rSubTree(0);  
                 break;
             case 1: // '\|'  
-                this.sons[0] = growTree(RndTree.V_ANGLE); 
-                this.sons[1] = growTree(0);
+                this.sons[0] = rSubTree(RndTree.V_ANGLE); 
+                this.sons[1] = rSubTree(0);
                 break;
             case 2: // '|/'
-                this.sons[0] = growTree(0); 
-                this.sons[1] = growTree(-RndTree.V_ANGLE);
+                this.sons[0] = rSubTree(0); 
+                this.sons[1] = rSubTree(-RndTree.V_ANGLE);
                 break;
-            case 3: //'\/'
-                this.sons[0] = growTree(-RndTree.V_ANGLE); 
-                this.sons[1] = growTree(RndTree.V_ANGLE);
+            case 3: // '\/'
+                this.sons[0] = rSubTree(-RndTree.V_ANGLE); 
+                this.sons[1] = rSubTree(RndTree.V_ANGLE);
                 break;
         }
     }
 
-
-    print(shift: string) {
+    // Тестове подання дерева
+    //
+    rPrint(shift: string) {
         console.log(shift, 
             `lev:${this.level} x:${this.x}  y:${this.y} size${this.size} angle:${this.angle}`);
         if (this.level == 0) 
             return;
-        this.sons[0]?.print(shift + "    ");
+        this.sons[0]?.rPrint(shift + "    ");
         console.log();
-        this.sons[1]?.print(shift + "    ");
+        this.sons[1]?.rPrint(shift + "    ");
     }
     
 }

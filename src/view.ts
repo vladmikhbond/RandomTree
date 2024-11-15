@@ -4,46 +4,53 @@ import Branch from "./Branch.js";
 export default class View
 {
     static canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas");
-
     static ctx: CanvasRenderingContext2D;
+
     rndTree: RndTree;
 
     constructor(tree:RndTree) {
-        
+        this.rndTree = tree;
+
+        // приведення контексту до шкільної системи координат
         View.ctx = <CanvasRenderingContext2D>View.canvas.getContext("2d");
         View.ctx.translate(0, View.canvas.height);
         View.ctx.scale(1, -1);
-
-        this.rndTree = tree;
     }
 
-    draw(age=0) {
+
+    drawTree(age=0) {
         View.ctx.clearRect(0, 0, View.canvas.width, View.canvas.height);
-        this.rdraw(this.rndTree.root, this.rndTree.maxDepth - age - 1);
+        this.#rDrawTree(this.rndTree.base, this.rndTree.maxDepth - age - 1);
     }
 
-    rdraw(b: Branch, levLimit: number) {
+
+    #rDrawTree(b: Branch, levLimit: number) {
         if (b.level <= levLimit) 
             return;
-
+        
+        // чим гілка вище, тим молодше 
         let visualAge = b.level - levLimit;
  
+        // визначення товщини (емпірічно)
         View.ctx.lineWidth = 0.05 * (visualAge + 1)**2;
+
         View.ctx.beginPath();
         View.ctx.moveTo(b.x, b.y);
         View.ctx.lineTo(b.xEnd, b.yEnd);
         View.ctx.stroke();
-        if (visualAge == 1 ) {   //&& b.level <= 3
+        if (visualAge == 1 ) {
             lives(b);
         }
 
-        if (b.sons[0]) this.rdraw(b.sons[0], levLimit);
-        if (b.sons[1]) this.rdraw(b.sons[1], levLimit);        
+        if (b.sons[0]) this.#rDrawTree(b.sons[0], levLimit);
+        if (b.sons[1]) this.#rDrawTree(b.sons[1], levLimit);        
 
-
+        // Внутрішня функція - малює листя не гільці 
         function lives(b: Branch) {
             let n = 7;
-            let dx = (b.xEnd - b.x)/n, dy = (b.yEnd - b.y)/n;
+            let dx = (b.xEnd - b.x)/n, 
+                dy = (b.yEnd - b.y)/n;
+
             View.ctx.fillStyle = 'green';
             View.ctx.beginPath(); 
             for (let i = n/2; i <= n; i++) {
