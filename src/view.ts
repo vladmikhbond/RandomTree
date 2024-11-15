@@ -17,25 +17,45 @@ export default class View
         this.rndTree = tree;
     }
 
-    draw(l=0) {
+    draw(age=0) {
         View.ctx.clearRect(0, 0, View.canvas.width, View.canvas.height);
-        this.rdraw(this.rndTree.root, l);
+        this.rdraw(this.rndTree.root, this.rndTree.maxDepth - age - 1);
     }
 
-    rdraw(b: Branch, oldest: number) {
-        if (b.level <= oldest) 
+    rdraw(b: Branch, levLimit: number) {
+        if (b.level <= levLimit) 
             return;
-        let dx = b.size * Math.cos(b.angle);
-        let dy = b.size * Math.sin(b.angle);
+        let x = b.x + b.size * Math.cos(b.angle);
+        let y = b.y + b.size * Math.sin(b.angle);
 
-        View.ctx.lineWidth = 0.05 * (b.level - oldest + 1)**2;
+        let visualAge = b.level - levLimit;
+ 
+        View.ctx.lineWidth = 0.05 * (visualAge + 1)**2;
         View.ctx.beginPath();
         View.ctx.moveTo(b.x, b.y);
-        View.ctx.lineTo(b.x + dx, b.y + dy);
+        View.ctx.lineTo(x, y);
         View.ctx.stroke();
+        if (visualAge == 1 ) {   //&& b.level <= 3
+            lives(b.x, b.y, x, y);
+        }
 
-        if (b.sons[0]) this.rdraw(b.sons[0], oldest);
-        if (b.sons[1]) this.rdraw(b.sons[1], oldest);        
+        if (b.sons[0]) this.rdraw(b.sons[0], levLimit);
+        if (b.sons[1]) this.rdraw(b.sons[1], levLimit);        
+
+
+        function lives(x1:number, y1:number, x2:number, y2:number) {
+            let n = 7;
+            let dx = (x2 - x1)/n, dy = (y2 - y1)/n;
+            View.ctx.fillStyle = 'green';
+            View.ctx.beginPath(); 
+            for (let i = n/2; i <= n; i++) {
+                let x = x1 + dx * i, y = y1 + dy * i;
+                let noiseX = Math.random() * 6 - 3, noiseY = Math.random() * 6 - 3;
+                View.ctx.arc(x + noiseX, y + noiseY, 2, 0, 6.29);
+            }
+            View.ctx.fill();
+        }
+
     }
 }
 
