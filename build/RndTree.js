@@ -24,6 +24,6 @@ export default class RndTree {
         this.grow();
     }
     grow() {
-        this.base.grow();
+        this.base.rGrow();
     }
 }
