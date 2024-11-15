@@ -18,13 +18,19 @@ export default class Branch
         this.level = level;
     }
 
+    get xEnd() {
+        return this.x + this.size * Math.cos(this.angle);
+    }
+
+    get yEnd() {
+        return this.y + this.size * Math.sin(this.angle);
+    }
+
 
     grow() {
         if (this.level == 0)
             return;
 
-        let x = this.x + this.size * Math.cos(this.angle);
-        let y = this.y + this.size * Math.sin(this.angle);
         let size = this.size * RndTree.REDUCTION;
         
         const nextLevel = (level: number) => {
@@ -35,7 +41,7 @@ export default class Branch
         }
 
         const growTree = (alpha: number) => {
-            let branch = new Branch(size, this.angle + alpha, x, y, nextLevel(this.level));
+            let branch = new Branch(size, this.angle + alpha, this.xEnd, this.yEnd, nextLevel(this.level));
             branch.grow();
             return branch;
         }
@@ -62,7 +68,8 @@ export default class Branch
 
 
     print(shift: string) {
-        console.log(shift, `lev:${this.level} x:${this.x}  y:${this.y} size${this.size} angle:${this.angle}`);
+        console.log(shift, 
+            `lev:${this.level} x:${this.x}  y:${this.y} size${this.size} angle:${this.angle}`);
         if (this.level == 0) 
             return;
         this.sons[0]?.print(shift + "    ");

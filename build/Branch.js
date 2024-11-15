@@ -8,11 +8,15 @@ export default class Branch {
         this.y = y;
         this.level = level;
     }
+    get xEnd() {
+        return this.x + this.size * Math.cos(this.angle);
+    }
+    get yEnd() {
+        return this.y + this.size * Math.sin(this.angle);
+    }
     grow() {
         if (this.level == 0)
             return;
-        let x = this.x + this.size * Math.cos(this.angle);
-        let y = this.y + this.size * Math.sin(this.angle);
         let size = this.size * RndTree.REDUCTION;
         const nextLevel = (level) => {
             let rnd = Math.random();
@@ -22,7 +26,7 @@ export default class Branch {
             return next;
         };
         const growTree = (alpha) => {
-            let branch = new Branch(size, this.angle + alpha, x, y, nextLevel(this.level));
+            let branch = new Branch(size, this.angle + alpha, this.xEnd, this.yEnd, nextLevel(this.level));
             branch.grow();
             return branch;
         };

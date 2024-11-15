@@ -12,28 +12,26 @@ class View {
     rdraw(b, levLimit) {
         if (b.level <= levLimit)
             return;
-        let x = b.x + b.size * Math.cos(b.angle);
-        let y = b.y + b.size * Math.sin(b.angle);
         let visualAge = b.level - levLimit;
         View.ctx.lineWidth = 0.05 * (visualAge + 1) ** 2;
         View.ctx.beginPath();
         View.ctx.moveTo(b.x, b.y);
-        View.ctx.lineTo(x, y);
+        View.ctx.lineTo(b.xEnd, b.yEnd);
         View.ctx.stroke();
         if (visualAge == 1) { //&& b.level <= 3
-            lives(b.x, b.y, x, y);
+            lives(b);
         }
         if (b.sons[0])
             this.rdraw(b.sons[0], levLimit);
         if (b.sons[1])
             this.rdraw(b.sons[1], levLimit);
-        function lives(x1, y1, x2, y2) {
+        function lives(b) {
             let n = 7;
-            let dx = (x2 - x1) / n, dy = (y2 - y1) / n;
+            let dx = (b.xEnd - b.x) / n, dy = (b.yEnd - b.y) / n;
             View.ctx.fillStyle = 'green';
             View.ctx.beginPath();
             for (let i = n / 2; i <= n; i++) {
-                let x = x1 + dx * i, y = y1 + dy * i;
+                let x = b.x + dx * i, y = b.y + dy * i;
                 let noiseX = Math.random() * 6 - 3, noiseY = Math.random() * 6 - 3;
                 View.ctx.arc(x + noiseX, y + noiseY, 2, 0, 6.29);
             }
@@ -43,6 +41,3 @@ class View {
 }
 View.canvas = document.getElementById("canvas");
 export default View;
-//     ctx.lineWidth = 0.05 * depth ** 2;
-//     let col = ['black', 'red', 'green', 'blue'][(D - depth) % 4];
-//     ctx.strokeStyle = col;
