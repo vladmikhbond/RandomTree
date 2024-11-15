@@ -2,7 +2,7 @@ import RndTree from "./RndTree.js";
 import View from "./view.js";
 
 let rTree = new RndTree(
-    10, 50, 
+    16, 50, 
     200, 0, 
     0.90, Math.PI/7, [1,1,1,1]
 );
@@ -11,9 +11,11 @@ let canvas = document.getElementById("canvas")!;
 
 canvas.addEventListener('click', () => {
     rTree.grow();
-    view.draw();
+    for (let oldest = rTree.maxDepth; oldest > 0; oldest--) {
+        setTimeout( () => view.draw(oldest), 200 * (rTree.maxDepth - oldest) );
+    }
 });
 
-canvas.dispatchEvent(new Event('click'));
+//canvas.dispatchEvent(new Event('click'));
 
 

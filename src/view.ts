@@ -17,22 +17,25 @@ export default class View
         this.rndTree = tree;
     }
 
-    draw() {
+    draw(l=0) {
         View.ctx.clearRect(0, 0, View.canvas.width, View.canvas.height);
-        this.drawRec(this.rndTree.root);
+        this.rdraw(this.rndTree.root, l);
     }
 
-    drawRec(b: Branch) {
+    rdraw(b: Branch, oldest: number) {
+        if (b.level <= oldest) 
+            return;
         let dx = b.size * Math.cos(b.angle);
         let dy = b.size * Math.sin(b.angle);
-        View.ctx.lineWidth = 0.05 * b.level ** 2;
+
+        View.ctx.lineWidth = 0.05 * (b.level - oldest + 1)**2;
         View.ctx.beginPath();
         View.ctx.moveTo(b.x, b.y);
         View.ctx.lineTo(b.x + dx, b.y + dy);
         View.ctx.stroke();
 
-        if (b.sons[0]) this.drawRec(b.sons[0]);
-        if (b.sons[1]) this.drawRec(b.sons[1]);        
+        if (b.sons[0]) this.rdraw(b.sons[0], oldest);
+        if (b.sons[1]) this.rdraw(b.sons[1], oldest);        
     }
 }
 

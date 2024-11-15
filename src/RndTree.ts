@@ -18,6 +18,7 @@ export default class RndTree
 
 
     root: Branch;
+    maxDepth: number;
 
     constructor(
         maxDepth: number, 
@@ -33,9 +34,9 @@ export default class RndTree
         let sum = P.reduce((a, x) => a + x);
         RndTree.PROBS = P.map(p => p / sum);
        
-
-       this.root = new Branch(rootSize, Math.PI / 2, x, y, maxDepth);
-       this.grow();
+        this.root = new Branch(rootSize, Math.PI / 2, x, y, maxDepth);
+        this.maxDepth = maxDepth;
+        this.grow();
     }
     
     grow() {
