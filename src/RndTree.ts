@@ -27,11 +27,11 @@ export default class RndTree
     baseSize: number;
     x: number;
     y: number;
-    maxDepth: number    // висота дерева (в гілках)
+    maxAge: number    // висота дерева (в гілках)
     base: Branch | null = null;
 
     constructor(
-        maxDepth: number, 
+        maxAge: number, 
         baseSize: number, 
         x: number, 
         y: number,
@@ -47,13 +47,13 @@ export default class RndTree
         RndTree.PROBS = PROBS.map(p => p / sum);
        
         this.baseSize = baseSize;
-        this.maxDepth = maxDepth;
+        this.maxAge = maxAge;
         this.x = x; this.y = y; 
         this.grow();
     }
     
     grow() {
-        this.base = new Branch(this.baseSize, Math.PI / 2, this.x, this.y, this.maxDepth);
+        this.base = new Branch(this.baseSize, Math.PI / 2, this.x, this.y, this.maxAge);
         this.base.rGrow();
     }
 

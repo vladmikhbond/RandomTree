@@ -20,28 +20,29 @@ export default class View
 
     drawTree(age=0) {
         View.ctx.clearRect(0, 0, View.canvas.width, View.canvas.height);
-        this.#rDrawTree(this.rndTree.base!, this.rndTree.maxDepth - age - 1);
+        this.#rDrawTree(this.rndTree.base!, this.rndTree.maxAge - age - 1);
     }
 
-    // Малює частину дерева, яка нижче за levLimit.
+    // Малює частину дерева, яка нижче за ageLimit.
     //
-    #rDrawTree(b: Branch, levLimit: number) {
-        if (b.level <= levLimit) 
+    #rDrawTree(b: Branch, ageLimit: number) {
+        if (b.age <= ageLimit) 
             return;
         
         // чим гілка вище, тим молодше 
-        let visualAge = b.level - levLimit;
+        let visualAge = b.age - ageLimit;
 
         this.drawTrunk(b, visualAge);
         this.drawLeaves(b, visualAge);
 
-        if (b.sons[0]) this.#rDrawTree(b.sons[0], levLimit);
-        if (b.sons[1]) this.#rDrawTree(b.sons[1], levLimit);        
+        if (b.sons[0]) this.#rDrawTree(b.sons[0], ageLimit);
+        if (b.sons[1]) this.#rDrawTree(b.sons[1], ageLimit);        
     }
+
 
     // Малює гілку 
     drawTrunk(b: Branch, visualAge: number) {
-        View.ctx.strokeStyle = 'brown';
+        View.ctx.strokeStyle = 'saddlebrown';
         View.ctx.lineCap = "round";
         // визначення товщини (емпірічно)
         let width = 0.05 * (visualAge + 1)**2;
@@ -59,8 +60,8 @@ export default class View
             View.ctx.lineTo(x + dx, y + dy);
             View.ctx.stroke();
         }
-
     }
+
 
     // Малює листя на гільці 
     drawLeaves(b: Branch, visualAge: number) {
@@ -71,13 +72,16 @@ export default class View
             dy = (b.yEnd - b.y)/n;
 
         View.ctx.fillStyle = 'green';
-        View.ctx.beginPath(); 
+        
         for (let i = n/2; i <= n; i++) {
+
             let x = b.x + dx * i, y = b.y + dy * i;
             let noiseX = Math.random() * 6 - 3, noiseY = Math.random() * 6 - 3;
+            View.ctx.beginPath(); 
             View.ctx.arc(x + noiseX, y + noiseY, 2, 0, 2*Math.PI);
+            View.ctx.fill();
         }
-        View.ctx.fill();
+       
     }
     
 

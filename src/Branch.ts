@@ -10,15 +10,15 @@ export default class Branch
     angle: number;
     sons: Branch[] = [];
   
-    // звороний рівень гілки (на горі він найменший = 0)
-    level: number;
+    // вік гілки (або зворотний рівень). На горі він = 0
+    age: number;
 
-    constructor(size: number, angle: number, x: number, y: number, level: number) {
+    constructor(size: number, angle: number, x: number, y: number, age: number) {
         this.size = size;
         this.angle = angle;
         this.x = x;
         this.y = y;
-        this.level = level;
+        this.age = age;
     }
 
     // Протилежний кінець гілки
@@ -29,7 +29,7 @@ export default class Branch
     // Рекурсивно вирощує дерево з гілки this 
     //
     rGrow() {
-        if (this.level == 0)
+        if (this.age == 0)
             return;
         
         // Внутрішня функція - визначає рівень наступного покоління гілок
@@ -44,7 +44,7 @@ export default class Branch
                 this.size * RndTree.REDUCTION, 
                 this.angle + alpha, 
                 this.xEnd, this.yEnd, 
-                nextLevel(this.level));
+                nextLevel(this.age));
             branch.rGrow();
             return branch;
         }
@@ -69,16 +69,16 @@ export default class Branch
         }
     }
 
-    // Тестове подання дерева
+    // Текстове подання дерева
     //
-    rPrint(shift: string) {
+    toString(shift: string) {
         console.log(shift, 
-            `lev:${this.level} x:${this.x}  y:${this.y} size${this.size} angle:${this.angle}`);
-        if (this.level == 0) 
+            `lev:${this.age} x:${this.x}  y:${this.y} size${this.size} angle:${this.angle}`);
+        if (this.age == 0) 
             return;
-        this.sons[0]?.rPrint(shift + "    ");
+        this.sons[0]?.toString(shift + "    ");
         console.log();
-        this.sons[1]?.rPrint(shift + "    ");
+        this.sons[1]?.toString(shift + "    ");
     }
     
 }

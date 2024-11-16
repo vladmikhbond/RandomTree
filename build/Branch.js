@@ -2,13 +2,13 @@ import RndTree from "./RndTree.js";
 // Гілка випадкового дерева
 //
 export default class Branch {
-    constructor(size, angle, x, y, level) {
+    constructor(size, angle, x, y, age) {
         this.sons = [];
         this.size = size;
         this.angle = angle;
         this.x = x;
         this.y = y;
-        this.level = level;
+        this.age = age;
     }
     // Протилежний кінець гілки
     //
@@ -17,7 +17,7 @@ export default class Branch {
     // Рекурсивно вирощує дерево з гілки this 
     //
     rGrow() {
-        if (this.level == 0)
+        if (this.age == 0)
             return;
         // Внутрішня функція - визначає рівень наступного покоління гілок
         function nextLevel(level) {
@@ -26,7 +26,7 @@ export default class Branch {
         }
         // Внутрішня функція - створює гілку, яка продовжує гілку this і має заданий кут нахилу
         const rSubTree = (alpha) => {
-            let branch = new Branch(this.size * RndTree.REDUCTION, this.angle + alpha, this.xEnd, this.yEnd, nextLevel(this.level));
+            let branch = new Branch(this.size * RndTree.REDUCTION, this.angle + alpha, this.xEnd, this.yEnd, nextLevel(this.age));
             branch.rGrow();
             return branch;
         };
@@ -48,15 +48,15 @@ export default class Branch {
                 break;
         }
     }
-    // Тестове подання дерева
+    // Текстове подання дерева
     //
-    rPrint(shift) {
+    toString(shift) {
         var _a, _b;
-        console.log(shift, `lev:${this.level} x:${this.x}  y:${this.y} size${this.size} angle:${this.angle}`);
-        if (this.level == 0)
+        console.log(shift, `lev:${this.age} x:${this.x}  y:${this.y} size${this.size} angle:${this.angle}`);
+        if (this.age == 0)
             return;
-        (_a = this.sons[0]) === null || _a === void 0 ? void 0 : _a.rPrint(shift + "    ");
+        (_a = this.sons[0]) === null || _a === void 0 ? void 0 : _a.toString(shift + "    ");
         console.log();
-        (_b = this.sons[1]) === null || _b === void 0 ? void 0 : _b.rPrint(shift + "    ");
+        (_b = this.sons[1]) === null || _b === void 0 ? void 0 : _b.toString(shift + "    ");
     }
 }

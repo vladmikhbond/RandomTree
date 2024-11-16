@@ -1,17 +1,18 @@
 import RndTree from "./RndTree.js";
 import View from "./view.js";
-let rndTree = new RndTree(16, 50, 200, 0, 0.90, Math.PI / 7, [1, 1, 1, 1]);
-let view = new View(rndTree);
-let canvas = document.getElementById("canvas");
+const rndTree = new RndTree(16, 50, 200, 0, 0.90, Math.PI / 7, [1, 1, 1, 1]);
+const view = new View(rndTree);
+const canvas = document.getElementById("canvas");
 canvas.addEventListener('click', () => {
-    let maxDepth = document.getElementById('maxDepth');
-    rndTree.maxDepth = +maxDepth.value;
+    const MSEC = 200;
+    let maxAge = document.getElementById('maxAge');
+    rndTree.maxAge = +maxAge.value;
     rndTree.grow();
-    for (let age = 1; age < rndTree.maxDepth; age++) {
-        let timeSpan = 500 * age;
+    for (let year = 0; year < rndTree.maxAge; year++) {
+        let timeSpan = MSEC * year;
         setTimeout(() => {
-            view.drawTree(age);
-            maxDepth.value = (age + 1).toString();
+            view.drawTree(year);
+            maxAge.value = (year + 1).toString();
         }, timeSpan);
     }
 });

@@ -15,11 +15,11 @@ class View {
     }
     drawTree(age = 0) {
         View.ctx.clearRect(0, 0, View.canvas.width, View.canvas.height);
-        __classPrivateFieldGet(this, _View_instances, "m", _View_rDrawTree).call(this, this.rndTree.base, this.rndTree.maxDepth - age - 1);
+        __classPrivateFieldGet(this, _View_instances, "m", _View_rDrawTree).call(this, this.rndTree.base, this.rndTree.maxAge - age - 1);
     }
     // Малює гілку 
     drawTrunk(b, visualAge) {
-        View.ctx.strokeStyle = 'brown';
+        View.ctx.strokeStyle = 'saddlebrown';
         View.ctx.lineCap = "round";
         // визначення товщини (емпірічно)
         let width = 0.05 * (visualAge + 1) ** 2;
@@ -42,26 +42,26 @@ class View {
         let n = 7;
         let dx = (b.xEnd - b.x) / n, dy = (b.yEnd - b.y) / n;
         View.ctx.fillStyle = 'green';
-        View.ctx.beginPath();
         for (let i = n / 2; i <= n; i++) {
             let x = b.x + dx * i, y = b.y + dy * i;
             let noiseX = Math.random() * 6 - 3, noiseY = Math.random() * 6 - 3;
+            View.ctx.beginPath();
             View.ctx.arc(x + noiseX, y + noiseY, 2, 0, 2 * Math.PI);
+            View.ctx.fill();
         }
-        View.ctx.fill();
     }
 }
-_View_instances = new WeakSet(), _View_rDrawTree = function _View_rDrawTree(b, levLimit) {
-    if (b.level <= levLimit)
+_View_instances = new WeakSet(), _View_rDrawTree = function _View_rDrawTree(b, ageLimit) {
+    if (b.age <= ageLimit)
         return;
     // чим гілка вище, тим молодше 
-    let visualAge = b.level - levLimit;
+    let visualAge = b.age - ageLimit;
     this.drawTrunk(b, visualAge);
     this.drawLeaves(b, visualAge);
     if (b.sons[0])
-        __classPrivateFieldGet(this, _View_instances, "m", _View_rDrawTree).call(this, b.sons[0], levLimit);
+        __classPrivateFieldGet(this, _View_instances, "m", _View_rDrawTree).call(this, b.sons[0], ageLimit);
     if (b.sons[1])
-        __classPrivateFieldGet(this, _View_instances, "m", _View_rDrawTree).call(this, b.sons[1], levLimit);
+        __classPrivateFieldGet(this, _View_instances, "m", _View_rDrawTree).call(this, b.sons[1], ageLimit);
 };
 View.canvas = document.getElementById("canvas");
 export default View;
