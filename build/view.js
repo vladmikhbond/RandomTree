@@ -23,12 +23,13 @@ _a = View, _View_instances = new WeakSet(), _View_rDrawTree = function _View_rDr
         return;
     // чим гілка вище, тим молодше 
     let visualAge = b.level - levLimit;
-    // визначення товщини (емпірічно)
-    _a.ctx.lineWidth = 0.05 * (visualAge + 1) ** 2;
-    _a.ctx.beginPath();
-    _a.ctx.moveTo(b.x, b.y);
-    _a.ctx.lineTo(b.xEnd, b.yEnd);
-    _a.ctx.stroke();
+    // // визначення товщини (емпірічно)
+    // View.ctx.lineWidth = 0.05 * (visualAge + 1)**2;
+    // View.ctx.beginPath();
+    // View.ctx.moveTo(b.x, b.y);
+    // View.ctx.lineTo(b.xEnd, b.yEnd);
+    // View.ctx.stroke();
+    trunk(b);
     if (visualAge == 1) {
         lives(b);
     }
@@ -36,6 +37,24 @@ _a = View, _View_instances = new WeakSet(), _View_rDrawTree = function _View_rDr
         __classPrivateFieldGet(this, _View_instances, "m", _View_rDrawTree).call(this, b.sons[0], levLimit);
     if (b.sons[1])
         __classPrivateFieldGet(this, _View_instances, "m", _View_rDrawTree).call(this, b.sons[1], levLimit);
+    // Внутрішня функція - малює гілку 
+    function trunk(b) {
+        _a.ctx.strokeStyle = 'brown';
+        _a.ctx.lineCap = "round";
+        // визначення товщини (емпірічно)
+        let width = 0.05 * (visualAge + 1) ** 2;
+        let n = 6;
+        let dx = (b.xEnd - b.x) / n, dy = (b.yEnd - b.y) / n, dw = (width - 0.05 * (visualAge) ** 2) / n;
+        _a.ctx.lineWidth = width;
+        for (let i = 0; i < n; i++) {
+            let x = b.x + dx * i, y = b.y + dy * i, w = width - dw * i;
+            _a.ctx.lineWidth = w;
+            _a.ctx.beginPath();
+            _a.ctx.moveTo(x, y);
+            _a.ctx.lineTo(x + dx, y + dy);
+            _a.ctx.stroke();
+        }
+    }
     // Внутрішня функція - малює листя не гільці 
     function lives(b) {
         let n = 7;
@@ -45,7 +64,7 @@ _a = View, _View_instances = new WeakSet(), _View_rDrawTree = function _View_rDr
         for (let i = n / 2; i <= n; i++) {
             let x = b.x + dx * i, y = b.y + dy * i;
             let noiseX = Math.random() * 6 - 3, noiseY = Math.random() * 6 - 3;
-            _a.ctx.arc(x + noiseX, y + noiseY, 2, 0, 6.29);
+            _a.ctx.arc(x + noiseX, y + noiseY, 2, 0, 2 * Math.PI);
         }
         _a.ctx.fill();
     }
