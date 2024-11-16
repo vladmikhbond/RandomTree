@@ -4,6 +4,7 @@ body {
 .header {
     color:saddlebrown;
     font-size: 24px;
+    font-weight: bold;
 }
 
 .age {
@@ -16,5 +17,6 @@ body {
 }
 
 canvas {
-    border: solid thin
+    border: solid thin;
+    margin-top: 6px;
 }
