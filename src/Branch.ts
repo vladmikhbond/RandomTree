@@ -4,21 +4,23 @@ import RndTree from "./RndTree.js";
 //
 export default class Branch 
 {    
-    x: number;
-    y: number;
     size: number;
     angle: number;
-    sons: Branch[] = [];
-  
-    // вік гілки (або зворотний рівень). На горі він = 0
+    x: number;
+    y: number;
+    // вік гілки або зворотний рівень
     age: number;
+    color: string;
+    sons: Branch[] = [];
 
-    constructor(size: number, angle: number, x: number, y: number, age: number) {
+
+    constructor(size: number, angle: number, x: number, y: number, age: number, color='saddlebrown') {
         this.size = size;
         this.angle = angle;
         this.x = x;
         this.y = y;
         this.age = age;
+        this.color = color;
     }
 
     // Протилежний кінець гілки
