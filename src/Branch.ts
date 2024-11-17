@@ -14,7 +14,7 @@ export default class Branch
     sons: Branch[] = [];
 
 
-    constructor(size: number, angle: number, x: number, y: number, age: number, color='saddlebrown') {
+    constructor(size: number, angle: number, x: number, y: number, age: number, color='rgb(143, 67, 13);') {
         this.size = size;
         this.angle = angle;
         this.x = x;
@@ -35,9 +35,19 @@ export default class Branch
             return;
         
         // Внутрішня функція - визначає рівень наступного покоління гілок
-        function nextLevel(level: number) {
-            let next = Math.random() < 0.5 ? level - 2 : level - 1;
+        function nextAge(father: Branch) {
+            let next = Math.random() < 0.5 ? father.age - 2 : father.age - 1;
             return next < 0 ? 0 : next;
+        }
+
+        // Внутрішня функція - визначає рівень наступного покоління гілок
+        function nextColor(father: Branch) {
+            if (Math.random() < 0.4) {
+                let red = 64 + Math.random() * 128 | 0;
+                return  `rgb(${red}, ${100}, ${0})`; 
+            }
+            return father.color;
+           
         }
 
         // Внутрішня функція - створює гілку, яка продовжує гілку this і має заданий кут нахилу
@@ -46,7 +56,9 @@ export default class Branch
                 this.size * RndTree.REDUCTION, 
                 this.angle + alpha, 
                 this.xEnd, this.yEnd, 
-                nextLevel(this.age));
+                nextAge(this),
+                nextColor(this),
+            );
             branch.rGrow();
             return branch;
         }

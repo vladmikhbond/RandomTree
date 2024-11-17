@@ -42,7 +42,7 @@ export default class View
 
     // Малює гілку 
     drawTrunk(b: Branch, visualAge: number) {
-        View.ctx.strokeStyle = 'saddlebrown';
+        View.ctx.strokeStyle = b.color;
         View.ctx.lineCap = "round";
         // визначення товщини (емпірічно)
         let width = 0.05 * (visualAge + 1)**2;
@@ -71,10 +71,10 @@ export default class View
         let dx = (b.xEnd - b.x)/n, 
             dy = (b.yEnd - b.y)/n;
 
-        View.ctx.fillStyle = 'green';
+        
         
         for (let i = n/2; i <= n; i++) {
-
+            View.ctx.fillStyle = Math.random() < 0.5 ? 'rgb(0, 100, 0)' : 'rgb(0, 156, 0)';
             let x = b.x + dx * i, y = b.y + dy * i;
             let noiseX = Math.random() * 6 - 3, noiseY = Math.random() * 6 - 3;
             View.ctx.beginPath(); 
