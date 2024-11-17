@@ -20,3 +20,7 @@ canvas {
     border: solid thin;
     margin-top: 6px;
 }
+
+#params {
+    width: 400px;
+}

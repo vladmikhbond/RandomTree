@@ -1,20 +1,20 @@
 import RndTree from "./RndTree.js";
 import View from "./view.js";
 
-const rndTree = new RndTree(
-    16, 50, 
-    200, 0, 
-    0.90, Math.PI/7, [1,1,1,1]
-);
+let maxAge = <HTMLInputElement>document.getElementById('maxAge')!;
+let params = <HTMLInputElement>document.getElementById('params')!;
+
+const rndTree = new RndTree();
 const view = new View(rndTree);
 const canvas = document.getElementById("canvas")!;
-
+const MSEC = 200;
 
 canvas.addEventListener('click', () => {
-    const MSEC = 200;
-    let maxAge = <HTMLInputElement>document.getElementById('maxAge')!;
-    rndTree.maxAge = +maxAge.value;
+
+    setTreeProps(rndTree);
     rndTree.grow();
+    
+
     for (let year = 0; year < rndTree.maxAge; year++) {
         let timeSpan = MSEC * year ;
         setTimeout( () => {
@@ -26,5 +26,18 @@ canvas.addEventListener('click', () => {
 
 canvas.dispatchEvent(new Event('click'));
 
+function setTreeProps(rndTree: RndTree) {
+    rndTree.maxAge = +maxAge.value;
 
+    let o = JSON.parse( '{'+ params.value +'}');
+    rndTree.baseSize = o.baseSize;
+
+    // нормалізуємо вірогідності
+    let sum = (<number[]>o.probs).reduce((a, x) => a + x);
+    rndTree.forkProbs = (<number[]>o.probs).map(p => p / sum);
+
+    rndTree.reduction = o.reduction;
+    rndTree.forkAngle = o.v_angle * Math.PI / 180;
+
+}
 
